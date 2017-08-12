@@ -9,12 +9,14 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      cryptos: []
+      cryptos: [],
+      images: []
     }
   }
 
   componentWillMount(){
     this.getCryptos();
+    this.getImages();
   }
 
   getCryptos(){
@@ -28,6 +30,19 @@ class App extends Component {
     })
   }
 
+  getImages(){
+    axios.request({
+      method: 'get',
+      url: 'https://www.cryptocompare.com/api/data/coinlist/'
+    }).then((response) => {
+      this.setState({images: response.data.Data});
+      // console.log(response.data.Data);
+      //console.log(this.state.images);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -35,7 +50,7 @@ class App extends Component {
         <Grid>
           <Row>
             <Col xs={12} md={12} lg={12}>
-              <Cryptos cryptos={this.state.cryptos} />
+              <Cryptos data={this.state} />
             </Col>
           </Row>
         </Grid>

@@ -3,25 +3,29 @@ import {Accordion, Col, Grid, ListGroup, ListGroupItem, Panel, Row} from "react-
 
 class Cryptos extends Component {
   render() {
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     let cryptoItems;
-    if (this.props.cryptos) {
-      cryptoItems = this.props.cryptos.map(crypto => {
+    if (this.props.data.cryptos) {
+      cryptoItems = this.props.data.cryptos.map(crypto => {
         let id = crypto.id;
         let name = crypto.name;
         let symbol = crypto.symbol;
         let rank = crypto.rank;
         let price = crypto.price_usd;
-        let marketCap = crypto.market_cap_usd;
+        let marketCap = numberWithCommas(Number(crypto.market_cap_usd).toFixed(0));
         let percentChange24h = crypto.percent_change_24h;
-        let header = rank + '. ' + name + ' (' + symbol + '): $' + Number(price).toFixed(2);
+        let header = rank + '. ' + name + ' (' + symbol + '): $' + numberWithCommas(Number(price).toFixed(2));
 
         return (
           <Panel key={id} header={header} eventKey={id}>
             <Grid>
               <Row>
-                <Col xs={11} md={11} lg={11}>
+                <Col xs={12} md={12} lg={12}>
                   <ListGroup>
-                    <ListGroupItem><strong>Market Capitalization: $</strong>{Number(marketCap).toFixed(0)}</ListGroupItem>
+                    <ListGroupItem><strong>Market Capitalization: </strong>${marketCap}</ListGroupItem>
                     <ListGroupItem><strong>% Change (24h): </strong>{percentChange24h}%</ListGroupItem>
                   </ListGroup>
                 </Col>
